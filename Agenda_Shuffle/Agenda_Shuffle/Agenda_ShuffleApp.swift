@@ -11,7 +11,7 @@ import SwiftUI
 struct Agenda_ShuffleApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PantallaAgenda()
         }
     }
 }
