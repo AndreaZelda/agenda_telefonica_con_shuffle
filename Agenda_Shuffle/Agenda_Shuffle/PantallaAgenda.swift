@@ -26,6 +26,7 @@ struct PantallaAgenda: View {
     var ancho_de_pantalla = UIScreen.main.bounds.height
     
     @State var mostrar_pantalla_agregar_contacto: Bool = false
+    @State var mostrar_pantalla_shuffle: Bool = false
     
     @State var contactos_actuales: [ContactoAgenda] = [
         ContactoAgenda(nombre: "Joana", telefono: "12345"),
@@ -43,9 +44,9 @@ struct PantallaAgenda: View {
             }
             .frame(alignment: Alignment.center)
             .padding(10)
-            .background(Color.cyan)
+            //.background(Color.cyan) //ver el fondo de los contactos
         }
-        .background(Color.yellow)
+        //.background(Color.yellow) //fondo de la aplicacion
 
         HStack(alignment: VerticalAlignment.center, spacing: 25){
             ZStack{
@@ -80,6 +81,7 @@ struct PantallaAgenda: View {
             .padding(15)
             .onTapGesture {
                 print("Lanzar un intent para iniciar la llamada")
+                //mostrar_pantalla_shuffle.toggle()
             }
         }.background(Color.purple)
             .sheet(isPresented: $mostrar_pantalla_agregar_contacto){
@@ -91,6 +93,8 @@ struct PantallaAgenda: View {
                         contactos_actuales.append(contacto_nuevo)
                 })
             }
+            //.sheet para el shuffle
+            
     }
 }
 

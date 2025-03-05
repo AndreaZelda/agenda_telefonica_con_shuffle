@@ -22,9 +22,10 @@ struct ContactoPrevista: View {
                 Image("imagencita")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 75, height: 75,
+                    .frame(width: 85, height: 70,
                            alignment: .center)
                     .clipShape(Circle())
+                    .padding(8)
                     //.background(Color.blue)
             }//.background(Color.white)
             
@@ -33,6 +34,7 @@ struct ContactoPrevista: View {
             VStack(alignment: HorizontalAlignment.leading, spacing: 10)
             {
                 Text(contacto_a_mostrar.nombre)
+                    .font(.custom("Montserrat", size: 20))
                 Text(contacto_a_mostrar.telefono)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
