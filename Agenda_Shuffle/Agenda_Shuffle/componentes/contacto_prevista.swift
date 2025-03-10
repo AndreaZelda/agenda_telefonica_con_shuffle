@@ -34,8 +34,11 @@ struct ContactoPrevista: View {
             VStack(alignment: HorizontalAlignment.leading, spacing: 10)
             {
                 Text(contacto_a_mostrar.nombre)
-                    .font(.custom("Montserrat", size: 20))
+                    .bold()
+                    .font(.title2)
+                    .foregroundColor(.white)
                 Text(contacto_a_mostrar.telefono)
+                    .font(.title3)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             //.background(Color.gray)
@@ -45,7 +48,7 @@ struct ContactoPrevista: View {
             
         }
         .frame(maxWidth: .infinity)
-        .background(Color.gray)
+        .background(Color.init(hex: 395, opacity: 0.65))
         .clipShape(RoundedRectangle(cornerSize: esquinas_redondeadas))
         .onTapGesture {
             al_pulsar()

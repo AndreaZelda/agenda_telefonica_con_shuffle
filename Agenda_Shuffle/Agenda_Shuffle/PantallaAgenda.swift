@@ -21,6 +21,24 @@ let contactos = [
     ContactoAgenda(nombre: "Joana", telefono: "12345")
 ]
 
+extension Color {
+    init(hex: Int, opacity: Double = 1) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: opacity
+        )
+    }
+}
+
+enum PantallasDisponibles: String, Identifiable{
+    case pantalla_agregar, pantalla_aleatorio
+    
+    var id: String { rawValue }
+}
+
 struct PantallaAgenda: View {
     var largo_de_pantalla = UIScreen.main.bounds.width
     var ancho_de_pantalla = UIScreen.main.bounds.height
@@ -34,8 +52,23 @@ struct PantallaAgenda: View {
         ContactoAgenda(nombre: "Joana", telefono: "12345"),
         ContactoAgenda(nombre: "Joana", telefono: "12345")]
     
+    @State var pantalla_a_mostrar: PantallasDisponibles?
+    
+    
     var body: some View {
         ScrollView{
+            HStack(){
+                Text("Contactos")
+                    .bold()
+                    .font(.largeTitle)
+                    .foregroundColor(.indigo)
+                
+                Spacer()
+            }
+            .frame(alignment: .trailingFirstTextBaseline)
+            .padding(.leading, 25)
+            .padding(.top, 10)
+            
             VStack (spacing: 10){
                 ForEach(contactos_actuales){ contacto in
                     //Text("\(contacto.nombre)")
@@ -52,18 +85,17 @@ struct PantallaAgenda: View {
             ZStack{
                 Circle()
                     .frame(width: 100)
-                    .tint(Color.blue)
                     .foregroundColor(Color.indigo)
                 Circle()
                     .frame(width: 65, height: 65)
-                    .foregroundColor(Color.cyan)
-                Image(systemName: "plus")
-                    .background(Color.blue)
+                    .foregroundColor(Color.indigo)
+                Icono(tamaño: 35, ruta_icono: "plus", padding: 0)
+                    .foregroundColor(.white)
             }
             .padding(15)
             .onTapGesture {
                 print("Falta implementar la seccion de agregar contacto")
-                mostrar_pantalla_agregar_contacto.toggle()
+                pantalla_a_mostrar = PantallasDisponibles.pantalla_agregar
             }
             Spacer()
             
@@ -74,26 +106,40 @@ struct PantallaAgenda: View {
                     .foregroundColor(Color.indigo)
                 Circle()
                     .frame(width: 65, height: 65)
-                    .foregroundColor(Color.cyan)
-                Image(systemName: "shuffle")
-                    .background(Color.blue)
+                    .foregroundColor(Color.indigo)
+                Icono(tamaño: 35, ruta_icono: "shuffle", padding: 0)
+                    .foregroundColor(.white)
             }
             .padding(15)
             .onTapGesture {
                 print("Lanzar un intent para iniciar la llamada")
+                pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
                 //mostrar_pantalla_shuffle.toggle()
             }
-        }.background(Color.purple)
+        }.background(Color.init(hex: 395886))
             .sheet(isPresented: $mostrar_pantalla_agregar_contacto){
-                PantallaAgregarContacto(boton_salir: {
-                    mostrar_pantalla_agregar_contacto.toggle()
-                },
-                    boton_agregar: {nombre, numero in
-                        let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
-                        contactos_actuales.append(contacto_nuevo)
-                })
+                
             }
-            //.sheet para el shuffle
+            .sheet(item: $pantalla_a_mostrar){ pantalla in
+                switch(pantalla){
+                case .pantalla_agregar:
+                    PantallaAgregarContacto(
+                        boton_salir: {
+                            pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
+                        //mostrar_pantalla_agregar_contacto.toggle()
+                    },
+                        boton_agregar: {nombre, numero in
+                            let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
+                            contactos_actuales.append(contacto_nuevo)
+                            pantalla_a_mostrar = nil
+                    }
+                )
+                case .pantalla_aleatorio:
+                    Text("Adios mundo")
+                }
+                
+            }
+            
             
     }
 }

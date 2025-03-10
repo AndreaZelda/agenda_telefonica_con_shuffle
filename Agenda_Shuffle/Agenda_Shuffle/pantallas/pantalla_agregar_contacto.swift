@@ -10,6 +10,7 @@ import SwiftUI
 struct PantallaAgregarContacto: View {
     @State private var nombre: String = ""
     @State private var numero_telefonico: String = ""
+    //@State private var imagen_seleccionada: String = ""
     
     var boton_salir: () -> Void = {
         print("Parece que te has equivocado")
@@ -19,7 +20,19 @@ struct PantallaAgregarContacto: View {
     }
     
     var body: some View {
+        HStack(){
+            Text("Agregar")
+                .bold()
+                .font(.largeTitle)
+                .padding(20)
+            Spacer()
+        }
+        
+        
         Text("Colocar la etiqueta de nombre")
+            .font(.title3)
+            .frame(alignment: .bottomLeading)
+        
         ZStack{
             Rectangle()
                 .frame(maxWidth: .infinity, maxHeight: 75)
@@ -30,6 +43,10 @@ struct PantallaAgregarContacto: View {
         
 
         Text("Colocar el campo de numero telefonico")
+            .font(.title3)
+            .frame(alignment: .bottomLeading)
+            .padding(.top, 25)
+        
         TextField("Placeholder", text: $numero_telefonico)
             .frame(height: 35)
             .padding(10)
@@ -40,16 +57,21 @@ struct PantallaAgregarContacto: View {
                 .onTapGesture {
                     boton_agregar(nombre, numero_telefonico)
                 }
+                .padding(25)
+                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
             Spacer()
             
             // Este icono es para salir
             Icono(tamaño: 65, ruta_icono: "return")
-                .background(nombre == "" ? Color.red:Color.cyan)
                 .onTapGesture {
                     boton_salir()
                 }
+                .padding(25)
+                .foregroundColor(.red)
+            
         }
-        .background(Color.cyan)
+        
+        Spacer()
        
     }
 }

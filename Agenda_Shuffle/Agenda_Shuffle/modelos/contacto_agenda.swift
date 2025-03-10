@@ -10,6 +10,8 @@ import SwiftUI
 struct ContactoAgenda: Identifiable{
     var nombre: String
     var telefono: String
+    
+    //var imagen: String
 
     var id: String { nombre }
     
