@@ -21,17 +21,7 @@ let contactos = [
     ContactoAgenda(nombre: "Joana", telefono: "12345")
 ]
 
-extension Color {
-    init(hex: Int, opacity: Double = 1) {
-        self.init(
-            .sRGB,
-            red: Double((hex >> 16) & 0xff) / 255,
-            green: Double((hex >> 08) & 0xff) / 255,
-            blue: Double((hex >> 00) & 0xff) / 255,
-            opacity: opacity
-        )
-    }
-}
+
 
 enum PantallasDisponibles: String, Identifiable{
     case pantalla_agregar, pantalla_aleatorio
@@ -47,15 +37,17 @@ struct PantallaAgenda: View {
     @State var mostrar_pantalla_shuffle: Bool = false
     
     @State var contactos_actuales: [ContactoAgenda] = [
-        ContactoAgenda(nombre: "Joana", telefono: "12345"),
-        ContactoAgenda(nombre: "Joana", telefono: "12345"),
-        ContactoAgenda(nombre: "Joana", telefono: "12345"),
-        ContactoAgenda(nombre: "Joana", telefono: "12345")]
+        ContactoAgenda(nombre: "Silvia Torres", telefono: "6564897123"),
+        ContactoAgenda(nombre: "Lupita Estrada", telefono: "6567891234"),
+        ContactoAgenda(nombre: "Víctor Trujillo", telefono: "6561098967"),
+        ContactoAgenda(nombre: "Alma Quintero", telefono: "6561502345")
+    ]
     
     @State var pantalla_a_mostrar: PantallasDisponibles?
     
     
     var body: some View {
+        NavigationStack{
         ScrollView{
             HStack(){
                 Text("Contactos")
@@ -71,20 +63,26 @@ struct PantallaAgenda: View {
             
             VStack (spacing: 10){
                 ForEach(contactos_actuales){ contacto in
+                    NavigationLink{
+                        Text("Holiii")
+                    }label:{
+                        ContactoPrevista(contacto_a_mostrar:contacto)
+                    }
                     //Text("\(contacto.nombre)")
-                    ContactoPrevista(contacto_a_mostrar: contacto, al_pulsar:{print("Te envia saludos \(contacto.nombre) desde la pantalla agenda")})
+                    //ContactoPrevista(contacto_a_mostrar: contacto, al_pulsar:{print("Te envia saludos \(contacto.nombre) desde la pantalla agenda")})
                 }
             }
             .frame(alignment: Alignment.center)
             .padding(10)
             //.background(Color.cyan) //ver el fondo de los contactos
         }
+        }
         //.background(Color.yellow) //fondo de la aplicacion
 
         HStack(alignment: VerticalAlignment.center, spacing: 25){
             ZStack{
                 Circle()
-                    .frame(width: 100)
+                    .frame(width: 95)
                     .foregroundColor(Color.indigo)
                 Circle()
                     .frame(width: 65, height: 65)
@@ -101,7 +99,7 @@ struct PantallaAgenda: View {
             
             ZStack{
                 Circle()
-                    .frame(width: 100)
+                    .frame(width: 95)
                     .tint(Color.blue)
                     .foregroundColor(Color.indigo)
                 Circle()
@@ -116,10 +114,7 @@ struct PantallaAgenda: View {
                 pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
                 //mostrar_pantalla_shuffle.toggle()
             }
-        }.background(Color.init(hex: 395886))
-            .sheet(isPresented: $mostrar_pantalla_agregar_contacto){
-                
-            }
+        }//.background(Color.init(hex: 395886))
             .sheet(item: $pantalla_a_mostrar){ pantalla in
                 switch(pantalla){
                 case .pantalla_agregar:
@@ -128,14 +123,14 @@ struct PantallaAgenda: View {
                             pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
                         //mostrar_pantalla_agregar_contacto.toggle()
                     },
-                        boton_agregar: {nombre, numero in
-                            let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero)
+                        boton_agregar: {nombre, numero, imagen_seleccionada in
+                            let contacto_nuevo = ContactoAgenda(nombre: nombre, telefono: numero, imagen: imagen_seleccionada)
                             contactos_actuales.append(contacto_nuevo)
                             pantalla_a_mostrar = nil
                     }
                 )
                 case .pantalla_aleatorio:
-                    Text("Adios mundo")
+                    Text("")
                 }
                 
             }

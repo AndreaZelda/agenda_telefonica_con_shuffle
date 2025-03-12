@@ -19,7 +19,7 @@ struct ContactoPrevista: View {
         HStack(alignment: VerticalAlignment.center, spacing: 10){
             Spacer()
             VStack {
-                Image("imagencita")
+                Image(contacto_a_mostrar.imagen)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 85, height: 70,
@@ -31,7 +31,7 @@ struct ContactoPrevista: View {
             
             Spacer()
             
-            VStack(alignment: HorizontalAlignment.leading, spacing: 10)
+            VStack(alignment: HorizontalAlignment.leading, spacing: 1)
             {
                 Text(contacto_a_mostrar.nombre)
                     .bold()
@@ -39,6 +39,7 @@ struct ContactoPrevista: View {
                     .foregroundColor(.white)
                 Text(contacto_a_mostrar.telefono)
                     .font(.title3)
+                    .foregroundColor(.white)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             //.background(Color.gray)
@@ -48,7 +49,7 @@ struct ContactoPrevista: View {
             
         }
         .frame(maxWidth: .infinity)
-        .background(Color.init(hex: 395, opacity: 0.65))
+        .background(Color.indigo)
         .clipShape(RoundedRectangle(cornerSize: esquinas_redondeadas))
         .onTapGesture {
             al_pulsar()

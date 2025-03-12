@@ -10,15 +10,19 @@ import SwiftUI
 var contacto_alterno = ContactoAgenda(nombre: "Telefoncio", telefono: "6567895635")
 
 struct pantalla_del_ganador: View {
+    var boton_salida: () -> Void = {
+        print("Apretaste colgar")
+    }
     var contacto_a_molestar: ContactoAgenda
     var body: some View {
         Spacer()
         Text("Llamando a...")
+            .font(.subheadline)
         
         ZStack{
             Circle().foregroundColor(.green)
                 .frame(width: 230)
-            Image("imagencita")
+            Image("imagen")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 250)
@@ -30,10 +34,14 @@ struct pantalla_del_ganador: View {
         Text(contacto_a_molestar.nombre)
             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
         Text(contacto_a_molestar.telefono)
+            .font(.system(size: 16))
         
         Spacer()
         
         Icono(tamaño: 70, ruta_icono: "phone.circle.fill", padding: 10)
+            .onTapGesture {
+                boton_salida()
+            }
             .foregroundColor(.red)
     }
 }
