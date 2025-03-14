@@ -35,6 +35,7 @@ struct PantallaAgenda: View {
     
     @State var mostrar_pantalla_agregar_contacto: Bool = false
     @State var mostrar_pantalla_shuffle: Bool = false
+    @State private var contactoGanador: ContactoAgenda? = nil
     
     @State var contactos_actuales: [ContactoAgenda] = [
         ContactoAgenda(nombre: "Silvia Torres", telefono: "6564897123"),
@@ -111,7 +112,10 @@ struct PantallaAgenda: View {
             .padding(15)
             .onTapGesture {
                 print("Lanzar un intent para iniciar la llamada")
-                pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
+                if let contactoSeleccionado = contactos_actuales.randomElement(){
+                    contactoGanador = contactoSeleccionado
+                    pantalla_a_mostrar = PantallasDisponibles.pantalla_aleatorio
+                }
                 //mostrar_pantalla_shuffle.toggle()
             }
         }//.background(Color.init(hex: 395886))
@@ -130,7 +134,12 @@ struct PantallaAgenda: View {
                     }
                 )
                 case .pantalla_aleatorio:
-                    Text("")
+                    if let contacto = contactoGanador {
+                        pantalla_del_ganador(contacto_a_molestar: contacto)
+                    }
+                    else {
+                        Text("No se selecciono ningun contacto para shuffle")
+                    }
                 }
                 
             }
